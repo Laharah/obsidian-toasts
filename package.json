@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "obsidian-toasts",
+	"version": "0.0.1",
+	"description": "An obsidian plugin for creating modal toasts/notificaions for the user.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
