@@ -1,12 +1,12 @@
 import {
-	App,
 	Component,
 	MarkdownRenderer,
 	Modal,
+	// Notice,
 	Plugin,
-	PluginSettingTab,
+	// PluginSettingTab,
 	requestUrl,
-	Setting,
+	// Setting,
 	TFile,
 } from "obsidian";
 
@@ -16,13 +16,13 @@ interface ToastPluginSettings {
 	mySetting: string;
 }
 
-const DEFAULT_SETTINGS: ToastPluginSettings = {
-	mySetting: "default",
-};
+// const DEFAULT_SETTINGS: ToastPluginSettings = {
+// 	mySetting: "default",
+// };
 
 export interface ToastApi {
 	getQuote(): Promise<ZenQuote>;
-	showToast(text: string|TFile): void;
+	showToast(text: string | TFile): void;
 }
 
 export default class ObsidianToast extends Plugin {
@@ -30,10 +30,10 @@ export default class ObsidianToast extends Plugin {
 	public api: ToastApi;
 
 	async onload() {
-		await this.loadSettings();
+		// await this.loadSettings();
 
-		function show_toast(text: string|TFile): void{
-			if (typeof text === "string"){
+		function show_toast(text: string | TFile): void {
+			if (typeof text === "string") {
 				return new Toast(this, text).open();
 			}
 			return new Toast(this, "", text).open();
@@ -43,7 +43,6 @@ export default class ObsidianToast extends Plugin {
 			getQuote: get_quote,
 			showToast: show_toast,
 		};
-
 
 		// // This creates an icon in the left ribbon.
 		// const ribbonIconEl = this.addRibbonIcon(
@@ -61,14 +60,14 @@ export default class ObsidianToast extends Plugin {
 		// const statusBarItemEl = this.addStatusBarItem();
 		// statusBarItemEl.setText("Status Bar Text");
 
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: "open-sample-modal-simple",
-			name: "Open sample modal (simple)",
-			callback: () => {
-				new Toast(this, "# HORRAY\n## You Can Have A Reward!").open();
-			},
-		});
+		// // This adds a simple command that can be triggered anywhere
+		// this.addCommand({
+		// 	id: "open-sample-modal-simple",
+		// 	name: "Open sample modal (simple)",
+		// 	callback: () => {
+		// 		new Toast(this, "# HORRAY\n## You Can Have A Reward!").open();
+		// 	},
+		// });
 		// This adds an editor command that can perform some operation on the current editor instance
 		// this.addCommand({
 		// 	id: "sample-editor-command",
@@ -99,8 +98,8 @@ export default class ObsidianToast extends Plugin {
 		// 	},
 		// });
 
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		// // This adds a settings tab so the user can configure various aspects of the plugin
+		// this.addSettingTab(new SampleSettingTab(this.app, this));
 
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
@@ -116,17 +115,17 @@ export default class ObsidianToast extends Plugin {
 
 	onunload() {}
 
-	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			await this.loadData()
-		);
-	}
+	// async loadSettings() {
+	// 	this.settings = Object.assign(
+	// 		{},
+	// 		DEFAULT_SETTINGS,
+	// 		await this.loadData()
+	// 	);
+	// }
 
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
+	// async saveSettings() {
+	// 	await this.saveData(this.settings);
+	// }
 }
 
 class Toast extends Modal {
@@ -163,37 +162,6 @@ class Toast extends Modal {
 	}
 }
 
-class SampleSettingTab extends PluginSettingTab {
-	plugin: ObsidianToast;
-
-	constructor(app: App, plugin: ObsidianToast) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const { containerEl } = this;
-
-		containerEl.empty();
-
-		containerEl.createEl("h2", { text: "Settings for my awesome plugin." });
-
-		new Setting(containerEl)
-			.setName("Setting #1")
-			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder("Enter your secret")
-					.setValue(this.plugin.settings.mySetting)
-					.onChange(async (value) => {
-						console.log("Secret: " + value);
-						this.plugin.settings.mySetting = value;
-						await this.plugin.saveSettings();
-					})
-			);
-	}
-}
-
 async function get_quote(): Promise<ZenQuote> {
 	const response = await requestUrl("https://zenquotes.io/api/random");
 	const j = response.json[0];
@@ -221,3 +189,34 @@ class ZenQuote {
 		this.image = r.i;
 	}
 }
+
+// class SampleSettingTab extends PluginSettingTab {
+// 	plugin: ObsidianToast;
+
+// 	constructor(app: App, plugin: ObsidianToast) {
+// 		super(app, plugin);
+// 		this.plugin = plugin;
+// 	}
+
+// 	display(): void {
+// 		const { containerEl } = this;
+
+// 		containerEl.empty();
+
+// 		containerEl.createEl("h2", { text: "Settings for my awesome plugin." });
+
+// 		new Setting(containerEl)
+// 			.setName("Setting #1")
+// 			.setDesc("It's a secret")
+// 			.addText((text) =>
+// 				text
+// 					.setPlaceholder("Enter your secret")
+// 					.setValue(this.plugin.settings.mySetting)
+// 					.onChange(async (value) => {
+// 						console.log("Secret: " + value);
+// 						this.plugin.settings.mySetting = value;
+// 						await this.plugin.saveSettings();
+// 					})
+// 			);
+// 	}
+// }
